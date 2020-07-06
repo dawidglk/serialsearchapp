@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PropTypes from 'prop-types'
 import { connect } from "react-redux";
 import { fetchSerials } from "../../actions";
 
@@ -17,7 +18,7 @@ const Search = ({ getSerials }) => {
     e.preventDefault();
     const { value } = state;
 
-    if (value.length) {
+    if (value !== undefined) {
       getSerials(value);
       setFetch(true);
     } else {
@@ -50,5 +51,9 @@ const Search = ({ getSerials }) => {
 };
 
 const mapDispatchToProps = { getSerials: fetchSerials };
+
+Search.propTypes = { 
+  getSerials:PropTypes.func.isRequired
+}
 
 export default connect(null, mapDispatchToProps)(Search);

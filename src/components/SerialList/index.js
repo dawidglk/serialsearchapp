@@ -1,5 +1,8 @@
 import React from "react";
+import PropTypes from 'prop-types'
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+
 import {
   CircularProgress,
   Box,
@@ -10,13 +13,13 @@ import {
   TableHead,
   TableRow,
 } from "@material-ui/core";
+import DescriptionTwoToneIcon from '@material-ui/icons/DescriptionTwoTone';
+
 
 import Title from "../Title";
-import DatePicker from "../DatePicker";
+
 
 const SerialList = ({ serials, loading }) => {
-  console.log(serials, loading);
-
   if (loading) {
     return (
       <Box display="flex" justifyContent="center" marginTop="20px">
@@ -24,6 +27,7 @@ const SerialList = ({ serials, loading }) => {
       </Box>
     );
   }
+
   return (
     <>
       {serials !== undefined ? (
@@ -55,17 +59,23 @@ const SerialList = ({ serials, loading }) => {
                 <TableCell>
                   <strong>Premiered</strong>
                 </TableCell>
+                <TableCell>
+                  <strong>More info</strong>
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {serials.map(({ score, show }) => (
+                
                 <TableRow key={show.id}>
-                  <TableCell>{score ? score : "-"}</TableCell>
-                  <TableCell>{show.name ? show.name : "-"}</TableCell>
-                  <TableCell>
-                    {show.genres.length ? show.genres.join(",") : "-"}
-                  </TableCell>
-                  <TableCell>{show.premiered ? show.premiered : "-"}</TableCell>
+              
+                    <TableCell>{score ? score : "-"}</TableCell>
+                    <TableCell>{show.name ? show.name : "-"}</TableCell>
+                    <TableCell>
+                      {show.genres.length ? show.genres.join(",") : "-"}
+                    </TableCell>
+                    <TableCell>{show.premiered ? show.premiered : "-"}</TableCell>
+                    <TableCell><Link to={`/serial/${show.id}`} style={{color:"#000"}}><DescriptionTwoToneIcon/></Link></TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -80,5 +90,10 @@ const mapStateToProps = (state) => ({
   serials: state.serials,
   loading: state.loading,
 });
+
+SerialList.propTypes = { 
+  serials:PropTypes.arrayOf(PropTypes.shape({})),
+  loading:PropTypes.bool,
+}
 
 export default connect(mapStateToProps, null)(SerialList);
