@@ -17,6 +17,8 @@ In the project directory, you can run and download packages:
 
 <img src='public/image/Main.png' alt='main'>
 
+- To go to the serial page, you have click icon more in the list
+
 ### Serial View
 
 <img src='public/image/SerialPage.png' alt='serialpage'>
