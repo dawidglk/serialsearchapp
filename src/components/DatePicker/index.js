@@ -1,22 +1,55 @@
-import React from "react";
-import Grid from "@material-ui/core/Grid";
-import DateFnsUtils from "@date-io/date-fns";
-import moment from "moment";
+import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 
 import {
-  KeyboardDatePicker,
-  MuiPickersUtilsProvider,
-} from "@material-ui/pickers";
+  Box,
+  InputLabel,
+  FormControl,
+  Select,
+  MenuItem,
+} from "@material-ui/core";
 
-const DatePicker = () => {
-  const [selectedDate, setSelectedDate] = React.useState("");
+import dayOfWeek from "../../utilities/dayOfWeek";
+import { setDayofWeek } from "../../actions";
 
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
+const DateSelect = ({ setDayofWeek }) => {
+  const [day, setDay] = useState("");
+
+  useEffect(() => {
+    setDayofWeek(day);
+  }, [day, setDayofWeek]);
+
+  const handleChange = (event) => {
+    setDay(event.target.value);
   };
   return (
-<p>Brawo</p>
+    <Box style={{ margin: 20, textAlign: "center" }}>
+      <FormControl>
+        <InputLabel id="serials">Day of the week serials</InputLabel>
+        <Select
+          labelId="serials"
+          id="serials"
+          value={day}
+          onChange={handleChange}
+          label="Serials"
+          style={{ width: 250 }}
+        >
+          {dayOfWeek.map((item, index) => (
+            <MenuItem key={index} value={item === "None" ? "" : item}>
+              {item}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+    </Box>
   );
 };
 
-export default DatePicker;
+const mapDispatchToProps = { setDayofWeek };
+
+DateSelect.propTypes = {
+  setDayofWeek: PropTypes.func.isRequired,
+};
+
+export default connect(null, mapDispatchToProps)(DateSelect);

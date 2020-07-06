@@ -1,5 +1,5 @@
 import React from "react";
-import PropTypes from 'prop-types'
+import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
@@ -13,11 +13,11 @@ import {
   TableHead,
   TableRow,
 } from "@material-ui/core";
-import DescriptionTwoToneIcon from '@material-ui/icons/DescriptionTwoTone';
-
+import DescriptionTwoToneIcon from "@material-ui/icons/DescriptionTwoTone";
 
 import Title from "../Title";
-
+import DatePicker from "../DatePicker";
+import dayOfWeekSort from "../../utilities/dayOfWeekSort";
 
 const SerialList = ({ serials, loading }) => {
   if (loading) {
@@ -41,9 +41,12 @@ const SerialList = ({ serials, loading }) => {
             marginTop: 20,
             paddingBlock: 10,
             overflow: "scroll",
+            maxHeight: 500,
+            overflowY: "scroll",
           }}
         >
           <Title>{`Found ${serials.length} serials`}</Title>
+          <DatePicker />
           <Table stickyHeader>
             <TableHead>
               <TableRow>
@@ -66,16 +69,18 @@ const SerialList = ({ serials, loading }) => {
             </TableHead>
             <TableBody>
               {serials.map(({ score, show }) => (
-                
                 <TableRow key={show.id}>
-              
-                    <TableCell>{score ? score : "-"}</TableCell>
-                    <TableCell>{show.name ? show.name : "-"}</TableCell>
-                    <TableCell>
-                      {show.genres.length ? show.genres.join(",") : "-"}
-                    </TableCell>
-                    <TableCell>{show.premiered ? show.premiered : "-"}</TableCell>
-                    <TableCell><Link to={`/serial/${show.id}`} style={{color:"#000"}}><DescriptionTwoToneIcon/></Link></TableCell>
+                  <TableCell>{score ? score : "-"}</TableCell>
+                  <TableCell>{show.name ? show.name : "-"}</TableCell>
+                  <TableCell>
+                    {show.genres.length ? show.genres.join(",") : "-"}
+                  </TableCell>
+                  <TableCell>{show.premiered ? show.premiered : "-"}</TableCell>
+                  <TableCell>
+                    <Link to={`/serial/${show.id}`} style={{ color: "#000" }}>
+                      <DescriptionTwoToneIcon />
+                    </Link>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -87,13 +92,13 @@ const SerialList = ({ serials, loading }) => {
 };
 
 const mapStateToProps = (state) => ({
-  serials: state.serials,
+  serials: dayOfWeekSort(state.day, state.serials),
   loading: state.loading,
 });
 
-SerialList.propTypes = { 
-  serials:PropTypes.arrayOf(PropTypes.shape({})),
-  loading:PropTypes.bool,
-}
+SerialList.propTypes = {
+  serials: PropTypes.arrayOf(PropTypes.shape({})),
+  loading: PropTypes.bool,
+};
 
 export default connect(mapStateToProps, null)(SerialList);

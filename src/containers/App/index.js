@@ -5,7 +5,6 @@ import Main from "../Main";
 import SerialPage from "../SerialPage";
 import Error from "../../components/Error";
 
-
 const App = () => (
   <BrowserRouter>
     <Switch>
