@@ -26,7 +26,7 @@ const DateSelect = ({ setDayofWeek }) => {
   return (
     <Box style={{ margin: 20, textAlign: "center" }}>
       <FormControl>
-        <InputLabel id="serials">Day of the week serials</InputLabel>
+        <InputLabel id="serials">Choose the day the show is on</InputLabel>
         <Select
           labelId="serials"
           id="serials"

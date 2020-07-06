@@ -19,7 +19,7 @@ import Title from "../Title";
 import DatePicker from "../DatePicker";
 import dayOfWeekSort from "../../utilities/dayOfWeekSort";
 
-const SerialList = ({ serials, loading }) => {
+const SerialList = ({ serials, loading, day }) => {
   if (loading) {
     return (
       <Box display="flex" justifyContent="center" marginTop="20px">
@@ -32,7 +32,6 @@ const SerialList = ({ serials, loading }) => {
     <>
       {serials !== undefined ? (
         <Container
-          maxWidth={false}
           style={{
             borderRadius: 4,
             borderColor: "#3f51b5",
@@ -43,9 +42,15 @@ const SerialList = ({ serials, loading }) => {
             overflow: "scroll",
             maxHeight: 500,
             overflowY: "scroll",
+            margin: "20px auto",
+            maxWidth: 1400,
           }}
         >
-          <Title>{`Found ${serials.length} serials`}</Title>
+          {day !== undefined && day !== "" ? (
+            <Title>{`Found ${serials.length} that you can see in ${day}`}</Title>
+          ) : (
+            <Title>{`Found ${serials.length} serials`}</Title>
+          )}
           <DatePicker />
           <Table stickyHeader>
             <TableHead>
@@ -94,11 +99,13 @@ const SerialList = ({ serials, loading }) => {
 const mapStateToProps = (state) => ({
   serials: dayOfWeekSort(state.day, state.serials),
   loading: state.loading,
+  day: state.day,
 });
 
 SerialList.propTypes = {
   serials: PropTypes.arrayOf(PropTypes.shape({})),
   loading: PropTypes.bool,
+  day: PropTypes.string,
 };
 
 export default connect(mapStateToProps, null)(SerialList);

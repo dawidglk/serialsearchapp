@@ -35,7 +35,7 @@ const Search = ({ getSerials }) => {
           variant="outlined"
           defaultValue={state}
           margin="normal"
-          style={{ width: 400 }}
+          style={{ width: 300 }}
           onChange={onChange}
           helperText={
             !isFetch
